@@ -1,0 +1,138 @@
+/* src/screens/Pantallas.css
+   Estilos de las pantallas dentro del celular. Se miden en "em" porque el tamaño
+   de letra lo fija el marco del celular (ver components/Phone.css). */
+
+.pscr-duo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6em;
+}
+.pscr-duo b { font-size: 0.98em; font-weight: 650; white-space: nowrap; }
+
+.pscr-dona {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+}
+.pscr-leyenda {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.45em;
+  font-size: 0.82em;
+}
+.pscr-leyenda li { display: flex; align-items: center; gap: 0.55em; }
+.pscr-leyenda i { width: 0.7em; height: 0.7em; border-radius: 50%; flex: none; }
+
+.pscr-dia { margin-bottom: 0.5em; }
+
+.pscr-fab {
+  margin-top: auto;
+  align-self: flex-end;
+  width: 3.1em;
+  height: 3.1em;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--hoja);
+  color: var(--tinta);
+  font-size: 1.5em;
+  font-weight: 600;
+  line-height: 1;
+  box-shadow: 0 0.6em 1.6em -0.4em rgb(200 242 90 / 0.5);
+}
+
+.pscr-cuentas { gap: 0.6em; flex: 1; }
+.pscr-cuenta {
+  display: grid;
+  grid-template-columns: 1fr 42%;
+  align-items: center;
+  gap: 0.8em;
+  flex: 1;
+  max-height: 8em;
+}
+.pscr-cuenta b { font-size: 1.15em; font-weight: 650; }
+.pscr-spark { width: 100%; height: 3.4em; overflow: visible; }
+
+.pscr-medidor {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+}
+.pscr-medidor svg { width: 5.6em; height: 5.6em; flex: none; }
+.pscr-big--m { font-size: 2em; }
+
+.pscr-barras { gap: 0.95em; }
+.pscr-barra__texto {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.6em;
+  margin-bottom: 0.4em;
+}
+.pscr-barra__texto b { font-size: 0.92em; font-weight: 600; }
+.pscr-barra__texto span { font-size: 0.74em; color: var(--bruma); }
+.pscr-barra__texto span.is-gasto { color: var(--coral); }
+.pscr-barra {
+  position: relative;
+  height: 0.7em;
+  border-radius: 99em;
+  background: rgb(241 244 238 / 0.08);
+  overflow: hidden;
+}
+.pscr-barra i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--hoja);
+}
+.pscr-barra i.es-superado { background: var(--coral); }
+.pscr-barra--marcador { height: 1.6em; border-radius: 0.6em; }
+.pscr-barra--marcador i { opacity: 0.9; border-radius: 0.6em; }
+.pscr-barra--marcador em {
+  position: absolute;
+  inset: 0 0.7em;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  font-style: normal;
+  font-size: 0.78em;
+  font-weight: 650;
+  color: var(--papel);
+  mix-blend-mode: normal;
+  text-shadow: 0 0 0.4em rgb(15 28 24 / 0.9);
+}
+
+.pscr-etiquetas {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5em;
+}
+.pscr-etiquetas li {
+  font-size: 0.85em;
+  padding: 0.35em 0.8em;
+  border-radius: 99em;
+  background: rgb(200 242 90 / 0.12);
+  color: var(--hoja);
+  font-weight: 600;
+}
+
+/* Evita que el texto largo rompa la fila: se recorta con puntos suspensivos. */
+.pscr-row__texto b,
+.pscr-row__texto span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pscr-medidor .pscr-label { white-space: nowrap; font-size: 0.74em; }
+.pscr-disponible {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.6em;
+}
+.pscr-disponible b { font-size: 1.15em; font-weight: 650; white-space: nowrap; }

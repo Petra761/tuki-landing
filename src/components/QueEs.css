@@ -1,0 +1,43 @@
+/* src/components/QueEs.css */
+.que-es__rejilla {
+  display: grid;
+  gap: 3rem;
+}
+.que-es__titulo {
+  font-size: clamp(2.1rem, 6.2vw, 4.2rem);
+  font-stretch: 90%;
+  max-width: 16ch;
+}
+.que-es__textos {
+  display: grid;
+  gap: 2rem;
+}
+.que-es__textos article {
+  padding-left: 1.25rem;
+  border-left: 2px solid var(--linea);
+}
+.que-es__textos article:nth-child(2) {
+  /* El bloque central es el que explica qué hace el producto: lleva el acento. */
+  border-left-color: var(--hoja);
+}
+.que-es__textos h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.015em;
+}
+.que-es__textos p {
+  color: rgb(241 244 238 / 0.74);
+  max-width: 34rem;
+}
+
+@media (min-width: 900px) {
+  .que-es__rejilla {
+    grid-template-columns: 1.1fr 1fr;
+    gap: 5rem;
+    align-items: start;
+  }
+  .que-es__textos {
+    gap: 2.6rem;
+    padding-top: 0.6rem;
+  }
+}

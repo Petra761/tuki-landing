@@ -1,0 +1,213 @@
+/* src/components/Registro.css */
+
+.registro {
+  position: relative;
+  background:
+    radial-gradient(50% 50% at 85% 20%, rgb(200 242 90 / 0.09), transparent 70%),
+    var(--tinta);
+}
+.registro__rejilla {
+  display: grid;
+  gap: 2.5rem;
+  align-items: start;
+}
+.registro__texto h2 {
+  font-size: clamp(2.2rem, 6.4vw, 4.2rem);
+  font-stretch: 90%;
+  margin-bottom: 1.2rem;
+}
+.registro__sub {
+  color: rgb(241 244 238 / 0.76);
+  max-width: 30rem;
+}
+
+.privacidad {
+  margin-top: 2rem;
+  padding-left: 1.25rem;
+  border-left: 2px solid var(--hoja);
+  max-width: 30rem;
+}
+.privacidad h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.4rem;
+  letter-spacing: -0.01em;
+}
+.privacidad p {
+  font-size: 0.97rem;
+  color: rgb(241 244 238 / 0.72);
+}
+
+/* ---------- Panel del formulario ---------- */
+
+.registro__panel {
+  padding: clamp(1.25rem, 4vw, 2rem);
+  border-radius: 1.8rem;
+  background: rgb(241 244 238 / 0.05);
+  box-shadow: inset 0 0 0 1px var(--linea);
+}
+
+.campo {
+  display: block;
+  margin: 0 0 1.25rem;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+.campo > label,
+.campo > legend {
+  display: block;
+  margin-bottom: 0.45rem;
+  padding: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+.campo input[type='text'] {
+  width: 100%;
+  min-height: 3.2rem;
+  padding: 0.7rem 1rem;
+  border: 0;
+  border-radius: 0.9rem;
+  background: rgb(14 31 26 / 0.7);
+  box-shadow: inset 0 0 0 1px var(--linea);
+  font-size: 1rem; /* 16 px o más evita el zoom automático en iPhone */
+  color: var(--papel);
+  transition: box-shadow 0.2s ease;
+}
+.campo input[type='text']:focus {
+  outline: none;
+  box-shadow: inset 0 0 0 2px var(--hoja);
+}
+.campo input[aria-invalid='true'] {
+  box-shadow: inset 0 0 0 2px var(--coral);
+}
+.campo__ayuda {
+  margin-top: 0.4rem;
+  font-size: 0.86rem;
+  color: var(--bruma);
+}
+.campo__error {
+  margin-top: 0.45rem;
+  font-size: 0.9rem;
+  font-weight: 550;
+  color: var(--coral);
+}
+
+/* ---------- Elegir plan ---------- */
+
+.planes-elegir__opciones {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+}
+.opcion {
+  position: relative;
+  cursor: pointer;
+}
+.opcion input {
+  position: absolute;
+  opacity: 0;
+  inset: 0;
+  margin: 0;
+  cursor: pointer;
+}
+.opcion__cuerpo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  height: 100%;
+  padding: 0.8rem 0.9rem;
+  border-radius: 0.9rem;
+  background: rgb(14 31 26 / 0.7);
+  box-shadow: inset 0 0 0 1px var(--linea);
+  transition: box-shadow 0.2s ease, background-color 0.2s ease;
+}
+.opcion__cuerpo b {
+  font-size: 0.92rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+.opcion__cuerpo span {
+  font-size: 0.88rem;
+  color: var(--bruma);
+  font-variant-numeric: tabular-nums;
+}
+.opcion input:checked + .opcion__cuerpo {
+  background: rgb(200 242 90 / 0.12);
+  box-shadow: inset 0 0 0 2px var(--hoja);
+}
+.opcion input:checked + .opcion__cuerpo span {
+  color: var(--hoja);
+}
+.opcion input:focus-visible + .opcion__cuerpo {
+  outline: 3px solid var(--hoja);
+  outline-offset: 3px;
+}
+
+/* ---------- Consentimiento ---------- */
+
+.consentimiento {
+  display: flex !important;
+  align-items: flex-start;
+  gap: 0.75rem;
+  font-weight: 450 !important;
+  font-size: 0.95rem !important;
+  line-height: 1.45;
+  cursor: pointer;
+}
+.consentimiento input {
+  flex: none;
+  width: 1.4rem;
+  height: 1.4rem;
+  margin: 0.05rem 0 0;
+  accent-color: var(--hoja);
+}
+
+/* ---------- Campo trampa: fuera de la vista pero presente en el HTML ---------- */
+
+.trampa {
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* ---------- Envío y mensajes ---------- */
+
+.registro__enviar {
+  width: 100%;
+  min-height: 3.4rem;
+}
+.registro__error {
+  margin: 0 0 1rem;
+  padding: 0.8rem 1rem;
+  border-radius: 0.9rem;
+  background: rgb(255 106 77 / 0.13);
+  box-shadow: inset 0 0 0 1px rgb(255 106 77 / 0.5);
+  font-size: 0.95rem;
+}
+.registro__exito {
+  padding: 1rem 0.25rem;
+}
+.registro__exito:focus {
+  outline: none;
+}
+.registro__exito h3 {
+  font-size: clamp(1.6rem, 5vw, 2.2rem);
+  color: var(--hoja);
+  margin-bottom: 0.8rem;
+}
+.registro__exito p {
+  color: rgb(241 244 238 / 0.8);
+}
+
+@media (min-width: 900px) {
+  .registro__rejilla {
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+  }
+  .planes-elegir__opciones {
+    grid-template-columns: 1fr 1fr;
+  }
+}

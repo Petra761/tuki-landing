@@ -1,0 +1,58 @@
+/* src/components/Header.css */
+.cabecera {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 50;
+  height: var(--alto-header);
+  background: rgb(14 31 26 / 0.82);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 1px 0 var(--linea);
+}
+.cabecera__interior {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+.cabecera__logo {
+  text-decoration: none;
+  border-radius: 0.6rem;
+}
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.logo__texto {
+  font-family: var(--fuente-titulo);
+  font-weight: 750;
+  font-size: 1.55rem;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+.cabecera__nav {
+  display: none;
+  margin-left: auto;
+  gap: 2rem;
+}
+.cabecera__nav a {
+  text-decoration: none;
+  font-size: 0.97rem;
+  color: var(--bruma);
+  transition: color 0.2s ease;
+}
+.cabecera__nav a:hover {
+  color: var(--papel);
+}
+.cabecera__cta {
+  min-height: 2.7rem;
+  padding: 0.55rem 1.2rem;
+  font-size: 0.95rem;
+}
+@media (min-width: 720px) {
+  .cabecera__nav {
+    display: flex;
+  }
+}

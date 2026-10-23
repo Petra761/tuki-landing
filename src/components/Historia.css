@@ -1,0 +1,103 @@
+/* src/components/Historia.css */
+
+.historia {
+  position: relative;
+  background:
+    radial-gradient(60% 40% at 15% 40%, rgb(200 242 90 / 0.06), transparent 70%),
+    var(--tinta);
+}
+
+.historia__cabecera {
+  max-width: 40rem;
+  margin-bottom: 3rem;
+}
+.historia__titulo {
+  font-size: clamp(2.1rem, 6vw, 4rem);
+  font-stretch: 90%;
+  margin-bottom: 1.1rem;
+}
+.historia__cabecera p {
+  color: rgb(241 244 238 / 0.74);
+}
+
+/* ---------- Móvil: cada paso lleva su propio celular ---------- */
+
+.historia__pasos {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 4rem;
+}
+.paso__texto h3 {
+  font-size: clamp(1.5rem, 5vw, 2rem);
+  margin-bottom: 0.7rem;
+  letter-spacing: -0.02em;
+}
+.paso__texto p {
+  color: rgb(241 244 238 / 0.76);
+  max-width: 30rem;
+}
+.paso__celular {
+  margin: 2rem auto 0;
+}
+
+/* ---------- Escritorio: celular fijo + pasos que avanzan ---------- */
+
+@media (min-width: 900px) {
+  .historia__cuerpo {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr);
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .historia__fijo {
+    position: sticky;
+    /* Centra el celular en la altura de la ventana (alto del celular ≈ 2,09 × ancho). */
+    top: calc(50svh - (min(18rem, 33svh) * 1.045));
+    display: grid;
+    place-items: center;
+  }
+  .historia__inclinable {
+    will-change: transform;
+  }
+
+  /* Las pantallas se apilan y se cruzan con un fundido. */
+  .historia__pila {
+    position: relative;
+    flex: 1;
+  }
+  .historia__pantalla {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9em;
+    opacity: 0;
+    transform: translateY(0.8em);
+    transition: opacity 0.45s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
+  }
+  .historia__pantalla[data-activa='true'] {
+    opacity: 1;
+    transform: none;
+  }
+
+  .historia__pasos {
+    gap: 0;
+  }
+  .paso {
+    min-height: 78svh;
+    display: flex;
+    align-items: center;
+    opacity: 0.32;
+    transition: opacity 0.5s ease;
+  }
+  .paso[data-activo='true'] {
+    opacity: 1;
+  }
+  .paso:first-child {
+    min-height: 70svh;
+  }
+}

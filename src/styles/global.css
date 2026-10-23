@@ -1,0 +1,230 @@
+/* src/styles/global.css
+   Tokens de diseño, reinicio básico y piezas comunes (botones, foco, textos solo para
+   lectores de pantalla). Todo lo demás vive junto a su componente.
+
+   Regla de color de la página (y de los celulares):
+     --hoja  (lima)  = dinero que entra / acción principal
+     --coral         = dinero que sale / alerta de presupuesto
+   El resto es tinta (fondo oscuro), papel (fondo claro) y bruma (texto secundario). */
+
+:root {
+  --tinta: #0e1f1a;
+  --tinta-2: #15302a;
+  --hoja: #c8f25a;
+  --coral: #ff6a4d;
+  --papel: #f1f4ee;
+  --bruma: #8ca096;
+  /* Texto secundario sobre fondo claro: la "bruma" no tiene contraste suficiente sobre papel. */
+  --bruma-oscura: #4a5e56;
+  --linea: rgb(241 244 238 / 0.12);
+  --linea-papel: rgb(14 31 26 / 0.14);
+
+  --fuente-titulo: 'Bricolage Grotesque Variable', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --fuente-texto: 'Onest Variable', 'Segoe UI', system-ui, -apple-system, sans-serif;
+
+  --ancho: min(74rem, 100% - 2.5rem);
+  --alto-header: 4.25rem;
+
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-padding-top: calc(var(--alto-header) + 1rem);
+}
+
+/* Clases que pone el script de Lenis; las dejamos listas para que no haya saltos. */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+body {
+  margin: 0;
+  background: var(--tinta);
+  color: var(--papel);
+  font-family: var(--fuente-texto);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--fuente-titulo);
+  font-weight: 700;
+  line-height: 1.04;
+  letter-spacing: -0.025em;
+  margin: 0;
+  text-wrap: balance;
+}
+
+p {
+  margin: 0;
+  text-wrap: pretty;
+}
+
+a {
+  color: inherit;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+/* ---------- Accesibilidad ---------- */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+:focus-visible {
+  outline: 3px solid var(--hoja);
+  outline-offset: 3px;
+  border-radius: 0.4rem;
+}
+
+.saltar {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 100;
+  padding: 0.7rem 1.1rem;
+  border-radius: 99rem;
+  background: var(--hoja);
+  color: var(--tinta);
+  font-weight: 600;
+  text-decoration: none;
+  transform: translateY(-200%);
+}
+.saltar:focus {
+  transform: none;
+}
+
+/* ---------- Layout común ---------- */
+
+.contenedor {
+  width: var(--ancho);
+  margin-inline: auto;
+}
+
+.seccion {
+  padding-block: clamp(4.5rem, 11vw, 9rem);
+}
+
+/* ---------- Botones ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 3.1rem; /* objetivo táctil cómodo en celular */
+  padding: 0.75rem 1.6rem;
+  border: 0;
+  border-radius: 99rem;
+  font-weight: 650;
+  font-size: 1rem;
+  line-height: 1.1;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+.btn:active {
+  transform: scale(0.98);
+}
+.btn--hoja {
+  background: var(--hoja);
+  color: var(--tinta);
+  box-shadow: 0 0 0 0 rgb(200 242 90 / 0);
+}
+.btn--hoja:hover {
+  box-shadow: 0 0.6rem 2rem -0.6rem rgb(200 242 90 / 0.6);
+}
+.btn--borde {
+  background: rgb(241 244 238 / 0.06);
+  color: var(--papel);
+  box-shadow: inset 0 0 0 1px var(--linea);
+}
+.btn--borde:hover {
+  background: rgb(241 244 238 / 0.12);
+}
+.btn--tinta {
+  background: var(--tinta);
+  color: var(--papel);
+}
+.btn--tinta:hover {
+  background: var(--tinta-2);
+}
+.btn[disabled] {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+/* ---------- Estado inicial de las animaciones ----------
+   Solo se ocultan los elementos si el script confirmó que el movimiento está activo
+   (clase "con-movimiento" en <html>). Sin JavaScript, o con "reducir movimiento",
+   todo el contenido se ve desde el primer momento. */
+
+/* Solo se oculta con opacidad. El desplazamiento lo pone GSAP: si el CSS también usara
+   "transform", GSAP lo leería como píxeles fijos y el elemento no volvería a su lugar. */
+.con-movimiento .anim-palabra,
+.con-movimiento .anim-entrada,
+.con-movimiento .anim-celular {
+  opacity: 0;
+}
+
+.mascara-palabra {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  /* Deja espacio para las letras que bajan (g, y, p) y que no se corten. */
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
+}
+.palabra {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

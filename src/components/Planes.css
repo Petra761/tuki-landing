@@ -1,0 +1,175 @@
+/* src/components/Planes.css
+   Sección clara (papel) para separar el momento de decidir del resto de la página. */
+
+.planes {
+  position: relative;
+  z-index: 2;
+  background: var(--papel);
+  color: var(--tinta);
+  border-radius: 2.2rem;
+  color-scheme: light;
+}
+.planes__cabecera {
+  max-width: 44rem;
+  margin-bottom: 2.75rem;
+}
+.planes__cabecera h2 {
+  font-size: clamp(2.1rem, 6vw, 4rem);
+  font-stretch: 90%;
+  margin-bottom: 1rem;
+}
+.planes__cabecera p {
+  color: var(--bruma-oscura);
+}
+
+/* ---------- Tarjetas ---------- */
+
+.planes__rejilla {
+  display: grid;
+  gap: 1rem;
+}
+.plan {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 1.5rem;
+  border-radius: 1.5rem;
+  background: #fff;
+  box-shadow: inset 0 0 0 1px var(--linea-papel);
+}
+.plan h3 {
+  font-size: 1.3rem;
+  letter-spacing: -0.02em;
+}
+.plan__precio {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--fuente-titulo);
+  font-size: clamp(2.3rem, 6vw, 3rem);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1;
+  margin-top: 0.3rem;
+  font-variant-numeric: tabular-nums;
+}
+.plan__precio span {
+  font-family: var(--fuente-texto);
+  font-size: 0.92rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--bruma-oscura);
+  margin-top: 0.45rem;
+}
+.plan__descripcion {
+  font-size: 0.98rem;
+  color: var(--bruma-oscura);
+}
+.plan__ahorro {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+.plan__duracion {
+  margin-top: auto;
+  padding-top: 0.6rem;
+  font-size: 0.88rem;
+  color: var(--bruma-oscura);
+}
+.plan .btn {
+  margin-top: 0.4rem;
+  width: 100%;
+}
+
+/* ---------- Premium (bloque oscuro que agrupa mensual y anual) ---------- */
+
+.premium {
+  border-radius: 1.8rem;
+  background: var(--tinta);
+  color: var(--papel);
+  padding: 0.6rem;
+}
+.premium__interior {
+  display: grid;
+  gap: 0.6rem;
+  height: 100%;
+}
+.premium .plan {
+  background: var(--tinta-2);
+  box-shadow: inset 0 0 0 1px var(--linea);
+}
+.premium .plan__descripcion,
+.premium .plan__duracion,
+.premium .plan__precio span {
+  color: var(--bruma);
+}
+.premium .plan--destacado {
+  background: linear-gradient(160deg, #1d3d2f, var(--tinta-2));
+  box-shadow: inset 0 0 0 1.5px var(--hoja);
+}
+.premium .plan__ahorro {
+  color: var(--hoja);
+}
+
+/* ---------- Tabla de funciones ---------- */
+
+.tabla {
+  margin-top: 3.5rem;
+  overflow-x: auto;
+  border-radius: 1.5rem;
+  background: #fff;
+  box-shadow: inset 0 0 0 1px var(--linea-papel);
+}
+.tabla table {
+  width: 100%;
+  min-width: 34rem;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+.tabla caption {
+  text-align: left;
+  padding: 1.25rem 1.5rem 0.6rem;
+  font-family: var(--fuente-titulo);
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.tabla th,
+.tabla td {
+  padding: 0.95rem 1.5rem;
+  text-align: left;
+  border-top: 1px solid var(--linea-papel);
+}
+.tabla thead th {
+  font-size: 0.92rem;
+  font-weight: 650;
+  color: var(--bruma-oscura);
+}
+.tabla tbody th {
+  font-weight: 550;
+}
+.tabla td {
+  font-weight: 500;
+}
+.tabla .col-premium {
+  background: rgb(200 242 90 / 0.22);
+}
+.tabla thead .col-premium {
+  color: var(--tinta);
+}
+.tabla__nota {
+  margin-top: 0.8rem;
+  font-size: 0.88rem;
+  color: var(--bruma-oscura);
+}
+
+@media (min-width: 640px) {
+  .premium__interior {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 1000px) {
+  .planes__rejilla {
+    grid-template-columns: 0.8fr 0.8fr 1.8fr;
+    align-items: stretch;
+  }
+}

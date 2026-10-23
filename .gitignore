@@ -1,0 +1,15 @@
+# Dependencias y compilación
+node_modules
+dist
+.vercel
+
+# Variables de entorno reales (solo se versiona .env.example)
+.env
+.env.*
+!.env.example
+
+# Sistema y editor
+.DS_Store
+*.log
+.vscode/*
+!.vscode/extensions.json

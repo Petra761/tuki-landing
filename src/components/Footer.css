@@ -1,0 +1,22 @@
+/* src/components/Footer.css */
+.pie {
+  border-top: 1px solid var(--linea);
+  padding-block: 2.5rem 3rem;
+  background: var(--tinta);
+}
+.pie__interior {
+  display: grid;
+  gap: 1rem;
+}
+.pie p {
+  max-width: 38rem;
+  font-size: 0.9rem;
+  color: var(--bruma);
+}
+@media (min-width: 800px) {
+  .pie__interior {
+    grid-template-columns: auto 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+}
