@@ -214,10 +214,16 @@ solo en el servidor para consultar o actualizar un registro. La ruta de atenció
 no debe usar esas credenciales desde el navegador ni guardarlas en
 `localStorage` o `sessionStorage`.
 
+La interfaz de operadores está disponible en `/atencion`. Esa ruta por sí sola
+no autentica al operador: las funciones API son las que validan la clave. La
+pantalla mantiene la clave solo en memoria mientras está abierta y enmascara por
+defecto los datos personales, el tenant ID y la contraseña temporal; el operador
+puede revelarlos manualmente cuando sea necesario.
+
 Al marcar una inscripción como atendida, la función llama al Gateway .NET en
 `{ADMIN_BASE_URL}/api/users/register`. Ese servicio genera una contraseña
 temporal y la devuelve una sola vez; la landing no la persiste ni la registra
-en logs.
+en logs. Ante un `502`, verificar si la cuenta llegó a crearse antes de reintentar.
 
 ### Normalización y Prevención de Duplicados
 

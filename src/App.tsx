@@ -12,8 +12,14 @@ import { Historia } from './components/Historia'
 import { Planes } from './components/Planes'
 import { Registro } from './components/Registro'
 import { Footer } from './components/Footer'
+import { Atencion } from './components/Atencion'
 
 export default function App() {
+  const ruta = window.location.pathname.replace(/\/+$/, '') || '/'
+  return ruta === '/atencion' ? <Atencion /> : <Landing />
+}
+
+function Landing() {
   const [plan, setPlan] = useState<PlanId | ''>('')
 
   // Scroll suave de toda la página (se omite si la persona pidió reducir movimiento).
