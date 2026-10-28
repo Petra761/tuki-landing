@@ -9,7 +9,8 @@
 --
 -- Regla de seguridad: con la clave pública (anon) el navegador SOLO puede insertar.
 -- Nadie puede leer, actualizar ni borrar desde el navegador. Los datos se consultan
--- y se editan únicamente desde el panel de Supabase (Table Editor), que usa otro rol.
+-- y se editan desde el panel de Supabase o funciones de servidor confiables.
+-- La clave service_role nunca se expone al navegador.
 -- ---------------------------------------------------------------------------
 
 -- Tabla de personas interesadas en Tuki (lista de espera / acceso de prueba).

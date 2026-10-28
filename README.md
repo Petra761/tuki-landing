@@ -134,14 +134,18 @@ flowchart TD
         Unique -- "Registro Previo" --> Conflicto["Confirmar Éxito (Sin divulgar estado)"]
     end
 
-    subgraph Admin["Panel de Gestión"]
-        Insert --> TableEditor["Supabase Studio / Table Editor"]
-        TableEditor --> Gestion["Gestión de estado: inscrito → atendido / descartado"]
+    subgraph Atencion["Atención protegida (Vercel)"]
+        Endpoint["GET /api/inscripciones<br/>PUT /api/inscripciones/estado"]
+        Endpoint -->|X-Api-Key| ServerKey["Validación de clave"]
+        ServerKey -->|service_role| Supabase
+        ServerKey -->|POST /api/users/register| Gateway["Gateway .NET por Dev Tunnels"]
+        Gateway --> Auth["Autenticación"]
+        Auth --> Admin["Administrador<br/>Tenant y bases"]
     end
 
     style Cliente fill:#0E1F1A,stroke:#C8F25A,stroke-width:2px,color:#F1F4EE
     style Supabase fill:#15302A,stroke:#3ECF8E,stroke-width:2px,color:#F1F4EE
-    style Admin fill:#1A2621,stroke:#8CA096,stroke-width:1px,color:#F1F4EE
+    style Atencion fill:#1A2621,stroke:#8CA096,stroke-width:1px,color:#F1F4EE
 ```
 
 ---
@@ -182,7 +186,7 @@ Los datos de suscripción se gestionan desde un único archivo de configuración
 | **Animación & Scroll** | [GSAP](https://greensock.com/) + [Lenis](https://lenis.darkroom.engineering/) | `3.15` / `1.3` | Desplazamiento inercial suave y orquestación temporal de entradas por caracteres, parallax y fijación de mockups. |
 | **Base de Datos** | [Supabase](https://supabase.com/) | `2.118` | Instancia de PostgreSQL 15 en la nube con validación a nivel de motor, triggers PL/pgSQL y Row Level Security. |
 | **Tipografía** | Fontsource Variable | `5.3` | Fuentes de variable tipográfica (`Bricolage Grotesque` para titulares y `Onest` para textos) auto-alojadas. |
-| **Despliegue** | [Vercel](https://vercel.com/) | Edge | Red de entrega global (CDN) con detección automática del proceso de construcción estática. |
+| **Despliegue** | [Vercel](https://vercel.com/) | SPA + Node.js Functions | CDN para el sitio estático y funciones de servidor para atender inscripciones. |
 
 ---
 
@@ -201,6 +205,19 @@ Los datos de suscripción se gestionan desde un único archivo de configuración
 2. **Denegación de Lectura y Modificación:** Las operaciones `SELECT`, `UPDATE` y `DELETE` se encuentran estrictamente revocadas para los roles `anon`, `authenticated` y `public`.
 3. **Validación Declarativa en el Motor:** Restricciones `CHECK` para verificar la longitud del nombre (2 a 80 caracteres), expresiones regulares para formato de correo y celular, y planes permitidos.
 4. **Protección contra Enumeración de Contactos:** Cuando un usuario remite un contacto ya existente, la interfaz simula una confirmación satisfactoria para evitar que actores externos deduzcan si un correo o número telefónico ya fue registrado.
+
+### Funciones de servidor para atender inscripciones
+
+Vercel publica `GET /api/inscripciones` y `PUT /api/inscripciones/estado` como
+funciones de servidor. Ambas exigen `X-Api-Key`; usan `SUPABASE_SERVICE_ROLE_KEY`
+solo en el servidor para consultar o actualizar un registro. La ruta de atención
+no debe usar esas credenciales desde el navegador ni guardarlas en
+`localStorage` o `sessionStorage`.
+
+Al marcar una inscripción como atendida, la función llama al Gateway .NET en
+`{ADMIN_BASE_URL}/api/users/register`. Ese servicio genera una contraseña
+temporal y la devuelve una sola vez; la landing no la persiste ni la registra
+en logs.
 
 ### Normalización y Prevención de Duplicados
 
@@ -289,14 +306,19 @@ tuki-landing/
 │   │   ├── hooks.ts            # Hooks reactivos (detección de media queries, etc.)
 │   │   ├── motion.ts           # Configuración central de GSAP, ScrollTrigger y Lenis
 │   │   ├── supabase.ts         # Integración y envío asíncrono hacia Supabase
+│   │   ├── inscripciones.ts    # Normalización y validación de contactos
 │   │   └── validation.ts       # Esquemas de validación de correo y contacto telefónico
 │   ├── styles/
 │   │   └── global.css          # Variables CSS, tipografías globales y estilos base
 │   ├── App.tsx                 # Ensamblador principal de la aplicación
 │   └── main.tsx                # Punto de entrada de React
+├── api/
+│   ├── inscripciones.ts        # Consulta protegida de inscripciones
+│   └── inscripciones/
+│       └── estado.ts           # Actualización y aprovisionamiento de usuario/tenant
 ├── supabase/
 │   └── schema.sql              # Esquema de base de datos, validaciones CHECK y RLS
-├── .env.example                # Plantilla de variables de entorno públicas
+├── .env.example                # Plantilla de variables públicas y server-only
 ├── index.html                  # Documento HTML base con precarga de fuentes
 ├── package.json                # Especificación de paquetes y scripts de ejecución
 ├── tsconfig.json               # Configuración del compilador TypeScript
@@ -334,7 +356,16 @@ tuki-landing/
    ```ini
    VITE_SUPABASE_URL=https://TU-PROYECTO.supabase.co
    VITE_SUPABASE_ANON_KEY=tu-clave-anon-o-publishable
+
+   # Solo para funciones de servidor; nunca uses el prefijo VITE_.
+   ADMIN_BASE_URL=http://localhost:5005
+   SUPABASE_URL=https://TU-PROYECTO.supabase.co
+   SUPABASE_SERVICE_ROLE_KEY=tu-clave-service-role
+   LANDING_API_KEY=define-una-clave-aleatoria-larga
    ```
+   `SUPABASE_SERVICE_ROLE_KEY` y `LANDING_API_KEY` son secretos: no los subas al
+   repositorio ni los uses desde el navegador. `npm run dev` sirve el frontend;
+   las funciones API se ejecutan en Vercel o con Vercel CLI (`npx vercel dev`).
 
 4. **Configurar la base de datos:**
    - Acceder a [Supabase Console](https://supabase.com/dashboard) → **SQL Editor**.
@@ -355,6 +386,7 @@ tuki-landing/
 | `npm run build` | Comprueba tipos con TypeScript y compila los artefactos de producción en `dist/`. |
 | `npm run preview` | Sirve localmente los archivos compilados para validación previa al despliegue. |
 | `npm run typecheck` | Ejecuta la comprobación estricta de tipos sin emitir archivos (`tsc --noEmit`). |
+| `npm test` | Prueba la normalización y validación de contactos. |
 
 ---
 
@@ -371,6 +403,10 @@ tuki-landing/
 4. En **Environment Variables**, incorporar:
    - `VITE_SUPABASE_URL`
    - `VITE_SUPABASE_ANON_KEY`
+   - `SUPABASE_URL`
+   - `SUPABASE_SERVICE_ROLE_KEY` (solo servidor)
+   - `LANDING_API_KEY` (solo servidor)
+   - `ADMIN_BASE_URL` (URL HTTPS activa del Gateway por Dev Tunnels)
 5. Ejecutar **Deploy**.
 
 ---
