@@ -225,6 +225,12 @@ Al marcar una inscripción como atendida, la función llama al Gateway .NET en
 temporal y la devuelve una sola vez; la landing no la persiste ni la registra
 en logs. Ante un `502`, verificar si la cuenta llegó a crearse antes de reintentar.
 
+Ejecuta `npm test` desde la raíz de `tuki-landing` para correr las pruebas de
+normalización y de las funciones API. La suite de API usa mocks en memoria para
+Supabase y el Gateway, incluida una respuesta con contactos duplicados que no
+puede producirse con el índice único actual. No necesita secretos ni modifica
+datos reales; no sustituye una prueba de integración con los servicios desplegados.
+
 ### Normalización y Prevención de Duplicados
 
 Un disparador en base de datos (`interesados_normalizar`) sanitiza los datos previo a la inserción:
