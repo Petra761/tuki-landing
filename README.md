@@ -136,7 +136,7 @@ flowchart TD
 
     subgraph Admin["Panel de Gestión"]
         Insert --> TableEditor["Supabase Studio / Table Editor"]
-        TableEditor --> Gestion["Gestión de estado: contactado / enviado"]
+        TableEditor --> Gestion["Gestión de estado: inscrito → atendido / descartado"]
     end
 
     style Cliente fill:#0E1F1A,stroke:#C8F25A,stroke-width:2px,color:#F1F4EE
@@ -236,7 +236,7 @@ curl -s -X PATCH "$URL/rest/v1/interesados?id=not.is.null" \
   -H "apikey: $KEY" \
   -H "Authorization: Bearer $KEY" \
   -H "Content-Type: application/json" \
-  -d '{"estado":"enviado"}'
+  -d '{"estado":"atendido"}'
 ```
 </details>
 

@@ -20,8 +20,8 @@ create table if not exists public.interesados (
   contacto        text        not null,
   plan_interes    text        not null,
   consentimiento  boolean     not null,
-  -- Columnas de seguimiento: solo se editan desde el panel de Supabase.
-  estado          text        not null default 'nuevo',
+  -- Columnas de seguimiento: no disponibles para el rol público.
+  estado          text        not null default 'inscrito',
   canal_envio     text,
   enviado_en      timestamptz,
 
@@ -37,7 +37,7 @@ create table if not exists public.interesados (
   ),
   constraint interesados_consentimiento_obligatorio check (consentimiento = true),
   constraint interesados_estado_valido check (
-    estado in ('nuevo', 'contactado', 'enviado', 'descartado')
+    estado in ('inscrito', 'atendido', 'descartado', 'activo')
   )
 );
 
@@ -89,7 +89,7 @@ create policy "anon puede inscribirse"
   to anon
   with check (
     consentimiento = true
-    and estado = 'nuevo'
+    and estado = 'inscrito'
     and canal_envio is null
     and enviado_en is null
   );
@@ -107,6 +107,6 @@ grant insert (nombre, contacto, plan_interes, consentimiento)
 --   from public.interesados order by creado_en desc;
 --
 --   update public.interesados
---   set estado = 'enviado', canal_envio = 'correo', enviado_en = now()
+--   set estado = 'atendido'
 --   where contacto = 'alguien@correo.com';
 -- ---------------------------------------------------------------------------
